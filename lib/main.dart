@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:providerapp/provider/counter_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,15 +12,24 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Flutter Demo', home: HomePage());
+    return ChangeNotifierProvider(
+      create: (context) => CounterProvider(),
+      child: MaterialApp(
+        home: HomePage(),
+      ),
+    );
   }
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final counter = Provider.of<CounterProvider>(context);
+
+    final count = counter.count;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -41,13 +52,13 @@ class HomePage extends StatelessWidget {
                   Icons.remove,
                   color: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () => counter.decrement(),
               ),
               const SizedBox(
                 width: 20,
               ),
-              const Text(
-                "1",
+              Text(
+                '${count}',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
@@ -61,7 +72,7 @@ class HomePage extends StatelessWidget {
                   Icons.add,
                   color: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () => counter.increment(),
               ),
             ],
           ),
