@@ -3,7 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:providerapp/provider/counter_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => CounterProvider()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,11 +17,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => CounterProvider(),
-      child: MaterialApp(
-        home: HomePage(),
-      ),
+    return MaterialApp(
+      home: HomePage(),
     );
   }
 }
